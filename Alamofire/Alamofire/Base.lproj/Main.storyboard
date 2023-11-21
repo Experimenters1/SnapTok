@@ -57,6 +57,13 @@
                                             <action selector="dowloadvideo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0K1-vI-NZb"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sk7-Sw-vv3">
+                                        <rect key="frame" x="0.0" y="335" width="393" height="136"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBrownColor"/>
                             </view>
@@ -74,6 +81,7 @@
                     </view>
                     <connections>
                         <outlet property="URL" destination="98N-31-kpo" id="aaS-lN-agt"/>
+                        <outlet property="URl_text" destination="Sk7-Sw-vv3" id="rNj-yd-Exq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

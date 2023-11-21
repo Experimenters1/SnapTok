@@ -12,6 +12,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var URL: UITextField!
     
+    @IBOutlet weak var URl_text: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,52 +36,42 @@ class ViewController: UIViewController {
         URL.text = "" // Gán giá trị cho UITextField thành chuỗi rỗng để xoá dữ liệu
     }
     
-    func downloadVideo(url: String, completion: @escaping (Data?) -> Void) {
-        if let url = Foundation.URL(string: url) {
-               URLSession.shared.dataTask(with: url) { (data, response, error) in
-                   if let data = data {
-                       completion(data)
-                   } else {
-                       print("Error downloading video: \(error?.localizedDescription ?? "Unknown error")")
-                       completion(nil)
-                   }
-               }.resume()
-           } else {
-               print("Invalid URL")
-               completion(nil)
-           }
-       }
+   
     
-    func saveVideoToDocuments(data: Data) {
-        do {
-            let documentsDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-            let videoURL = documentsDirectory.appendingPathComponent("downloadedVideo.mp4")
-            try data.write(to: videoURL)
-            print("Video saved to: \(videoURL)")
-        } catch {
-            print("Error saving video: \(error.localizedDescription)")
+   
+    
+    @IBAction func dowloadvideo(_ sender: Any) {
+        // Lấy giá trị từ UITextField
+        if let urlText = URL.text {
+            // Sử dụng regular expression để lọc đường dẫn mong muốn
+            if let extractedURL = extractURL(from: urlText) {
+                URl_text.text = extractedURL
+                print(extractedURL)
+            } else {
+                URl_text.text = urlText
+            }
         }
     }
     
-    @IBAction func dowloadvideo(_ sender: Any) {
-        guard let videoURL = URL.text, !videoURL.isEmpty else {
-                    print("URL is empty.")
-                    return
-                }
-
-        downloadVideo(url: videoURL) { data in
-                    if let videoData = data {
-                        // Handle video data here (e.g., save to a file)
-                        // Make sure to check permissions before saving the video to the user's device
-                        // ...
-                        // Save the video to the Documents directory
-                        self.saveVideoToDocuments(data: videoData)
-                        print("Video downloaded successfully!")
-                    } else {
-                        print("Failed to download video.")
-                    }
-                }
-    }
+    
+    // Hàm để lọc đường dẫn từ văn bản đầu vào
+       func extractURL(from text: String) -> String? {
+           // Sử dụng regular expression để tìm kiếm đường dẫn
+           let pattern = "https://v.douyin.com/[a-zA-Z0-9/]+"
+           
+           do {
+               let regex = try NSRegularExpression(pattern: pattern)
+               let matches = regex.matches(in: text, range: NSRange(text.startIndex..., in: text))
+               
+               if let match = matches.first {
+                   return String(text[Range(match.range, in: text)!])
+               }
+           } catch {
+               print("Error in regular expression: \(error)")
+           }
+           
+           return nil
+       }
     
 }
 
